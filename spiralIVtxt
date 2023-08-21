@@ -1,0 +1,90 @@
+/* 
+[Leetcode problem -2326]
+2326. Spiral Matrix IV
+Medium
+You are given two integers m and n, which represent the dimensions of a matrix.
+
+You are also given the head of a linked list of integers.
+
+Generate an m x n matrix that contains the integers in the linked list presented in spiral order (clockwise), starting from the top-left of the matrix. If there are remaining empty spaces, fill them with -1.
+
+Return the generated matrix.
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> spiralMatrix(int m, int n, ListNode* head) 
+    {
+        int rows=m;
+        int cols=n; 
+        vector<vector<int>>ans(rows, vector<int>(cols, -1));
+        if(head==NULL)
+        {
+            return ans;
+        }
+        int total=m*n;
+        int top=0,bottom=m-1;
+        int left=0,right=n-1;
+        ListNode*temp=head;
+        int i=0,j=0;
+        while(left<=right&&top<=bottom&&temp!=NULL)
+        {
+            if(temp==NULL)return ans;
+            if(temp!=NULL)
+            {
+                for(int i=left;i<=right;i++)
+                {
+                    if(temp!=NULL)
+                    {
+                        ans[top][i]=temp->val;
+                        temp=temp->next;
+                    }
+                
+                }
+            }
+            top++;
+            if(temp==NULL)return ans;
+             for(int i=top;i<=bottom;i++)
+            {
+                if(temp!=NULL)
+                {
+                    ans[i][right]=temp->val;
+                    temp=temp->next;
+               }
+            }
+            right-=1;
+            if(temp==NULL)return ans;
+             for(int i=right;i>=left&&top<=bottom;i--)
+            {
+                if(temp!=NULL)
+                {
+                    ans[bottom][i]=temp->val;
+                    temp=temp->next;
+                 }
+            } 
+            bottom-=1;
+            if(temp==NULL)return ans;
+            for(int i=bottom;i>=top&&left<=right;i--)
+            {
+                if(temp!=NULL)
+                {
+
+                    ans[i][left]=temp->val;
+                    temp=temp->next;
+                }
+            }
+            left++;
+        }
+
+        return ans;
+    }
+};	
